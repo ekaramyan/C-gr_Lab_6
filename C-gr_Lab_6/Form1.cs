@@ -7,120 +7,89 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+
 namespace C_gr_Lab_6
 {
     public partial class Form1 : Form
-    {
+    { // Size: 1 000, 600
         public Form1()
         {
             InitializeComponent();
         }
-        protected override void OnPaint(PaintEventArgs e)
+        private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            #region // кисти
             Graphics g = e.Graphics;
-            // Задаем красный цвет для носа ракеты
-            SolidBrush myNos = new SolidBrush(Color.Red);
-            // Задаем серебряный цвет для топливных баков
-            SolidBrush myBak = new SolidBrush(Color.Silver);
-            // Задаем белый и серый цвет для корпуса ракеты
-            SolidBrush myShip = new SolidBrush(Color.White);
-            SolidBrush myLine = new SolidBrush(Color.Gray);
-            // Задаем желтый и оранжевый цвет для пламени
-            SolidBrush myFire1 = new SolidBrush(Color.Yellow);
-            SolidBrush myFire2 = new SolidBrush(Color.Orange);
-            // Задаем желто-зеленый цвет для звезды
-            SolidBrush myStar = new SolidBrush(Color.GreenYellow);
-            // ******* 1 - Рисуем топливные баки ************
-            // Рисуем два прямоугольника
-            g.FillRectangle(myBak, 179, 115, 26, 175);
-            g.FillRectangle(myBak, 275, 115, 26, 175);
-            // Сверху каждого прямоугольника рисуем по треугольнику
-            g.FillPolygon(myBak, new Point[] {
+            SolidBrush sun = new SolidBrush(Color.Yellow);
+            SolidBrush clouds = new SolidBrush(Color.LightGray);
+            SolidBrush road = new SolidBrush(Color.DarkSlateGray);
+            SolidBrush tile = new SolidBrush(Color.White);
+            SolidBrush wheeles = new SolidBrush(Color.Black);
+            #endregion
 
-new Point(179,115),new Point(192,100),
-new Point(192,100),new Point(205,115),
-new Point(205,115),new Point(179,115)
+            #region // небо
+            g.FillPie(sun, 115, 23, 95, 95, 0, -180);
+            g.FillEllipse(clouds, 75, 45, 155, 75);
+            g.FillEllipse(clouds, 250, 20, 130, 45);
+            g.FillEllipse(clouds, 432, 55, 180, 80);
+            g.FillEllipse(clouds, 650, 25, 130, 70);
+            g.FillEllipse(clouds, -50, 35, 100, 70);
+            #endregion
 
-});
-            g.FillPolygon(myBak, new Point[] {
-
-new Point(275,115),new Point(287,100),
-new Point(287,100),new Point(301,115),
-new Point(301,115),new Point(275,115)
-
-});
-
-            // ************* 2 - Рисуем нос ракеты ***************
-            g.FillPolygon(myNos, new Point[] {
-
-new Point(205,90),new Point(240,60),
-new Point(240,60),new Point(275,90),
-new Point(275,90),new Point(275,290),
-new Point(275,290),new Point(205,290),
-new Point(205,290),new Point(205,90)
-
-});
-            // ******** 3 - Рисуем нижнюю часть ракеты ************
-            g.FillPolygon(myLine, new Point[] {
-
-new Point(130,300),new Point(240,260),
-new Point(240,260),new Point(345,300),
-new Point(345,300),new Point(130,300)
-
-});
-            // ******** 4 - Рисуем часть ракеты ниже носа **********
-            g.FillPolygon(myLine, new Point[] {
-
-new Point(204,145),new Point(240,115),
-new Point(240,115),new Point(276,145),
-new Point(276,145),new Point(204,145)
-
-});
-            // ********** 5 - Рисуем корпус ракеты белым цветом *****
-            g.FillRectangle(myShip, 204, 145, 72, 155);
-            // ******* 6 - Рисуем серую полосу на корпусе ракеты *****
-            g.FillRectangle(myLine, 204, 185, 72, 50);
-            // *********** 7 - Рисуем пламя из сопла ракеты *********
-            // Определяем графический контейнер
+            #region // Машины
             GraphicsPath myGraphicsPath = new GraphicsPath();
-            Pen p = new Pen(Brushes.Red, 1);
-            // Задаем координаты точек первой кривой (внутреннее пламя)
-            Point[] myPointArray1 = { new Point(210, 300),
-new Point(210, 330), new Point(240, 360),
-new Point(270, 330), new Point(270, 300)};
+            Point[] truck1 = new Point[4] {new Point(500, this.ClientRectangle.Width), new Point(500, 350), new Point(300, 350),
+                new Point(300, this.ClientRectangle.Height - 75) };
+            Point[] truck2 = new Point[4] {new Point(575, this.ClientRectangle.Width/2), new Point(575, 425), new Point(500, 425),
+                new Point(500, this.ClientRectangle.Height - 75) };
+            Point[] car1 = new Point[4] {new Point(400, this.ClientRectangle.Width), new Point(400, 410), new Point(200, 410),
+                new Point(200, this.ClientRectangle.Height - 75) };
+            Point[] car2 = new Point[4] {new Point(400, this.ClientRectangle.Width/2), new Point(400, 450), new Point(450, 450),
+                new Point(450, this.ClientRectangle.Height - 75) };
+            Point[] car3 = new Point[4] {new Point(150, this.ClientRectangle.Width/2), new Point(150, 450), new Point(200, 450),
+                new Point(200, this.ClientRectangle.Height - 75) };
+            g.FillPolygon(Brushes.LightGray, truck1);
+            g.DrawPolygon(Pens.Black, truck1);
+            g.FillPolygon(Brushes.LightBlue, truck2);
+            g.DrawPolygon(Pens.Black, truck2);
+            g.FillPolygon(Brushes.Red, car1);
+            g.DrawPolygon(Pens.Black, car1);
+            g.FillPolygon(Brushes.Red, car2);
+            g.DrawPolygon(Pens.Black, car2);
+            g.FillPolygon(Brushes.Red, car3);
+            g.DrawPolygon(Pens.Black, car3);
 
-            // Добавляем кривую в контейнер
-            myGraphicsPath.AddCurve(myPointArray1);
-            // Выводим внутренню часть пламени, закрашенную желтым цветом
-            g.FillPath(myFire1, myGraphicsPath);
-            // Задаем координаты точек второй кривой (внешнее пламя)
-            Point[] myPointArray2 = { new Point(185, 300),
-new Point(185, 360), new Point(240, 430),
-new Point(295, 360), new Point(295, 300) };
+            g.FillRectangle(Brushes.Gray, this.ClientRectangle.Width - 150, 170, 500, 500);
+            g.DrawRectangle(Pens.Black, this.ClientRectangle.Width - 150, 170, 500, 500);
 
-            // Добавляем кривую в контейнер
-            myGraphicsPath.AddCurve(myPointArray2);
-            // Добавляем текст в контейнер
-            myGraphicsPath.AddString("ПУСК !", new FontFamily("Times New
-            Roman"), 0, 18, new Point(210, 370), new StringFormat());
-            // Выводим закрашенную оранжевым цветом область
-            g.FillPath(myFire2, myGraphicsPath);
-            // Рисуем границы кривых
-            g.DrawPath(p, myGraphicsPath);
+            g.FillRectangle(Brushes.DarkGray, this.ClientRectangle.Width - 200, 225, 500, 500);
+            g.DrawRectangle(Pens.Black, this.ClientRectangle.Width - 200, 225, 500, 500);
+            #endregion
 
-            // Рисуем луну
-            g.FillEllipse(myFire1, 10, 10, 70, 70);
-            g.DrawEllipse(Pens.Yellow, 10, 10, 70, 70);
-            // Рисуем звезду
-            int x = 400; int y = 50;
-            g.FillPolygon(myStar, new Point[] {
+            #region //колеса
+            g.FillEllipse(wheeles, 180, 480, 50, 50);
+            g.FillEllipse(wheeles, 380, 480, 50, 50);
+            g.FillEllipse(wheeles, 500, 480, 50, 50);
+            #endregion
 
-new Point(x,y),new Point(x+5,y+5),
-new Point(x+15,y+10),new Point(x+5,y+15),
-new Point(x,y+20),new Point(x-5,y+15),
-new Point(x-15,y+10),new Point(x-5,y+5)
+            #region // дорога
+            Rectangle rectRoad = new Rectangle(-10, this.ClientRectangle.Height - 75,
+                this.ClientRectangle.Width + 15, this.ClientRectangle.Height + 15);
+            Pen pRoad = new Pen(Brushes.Black, 7);
+            g.FillRectangle(road, rectRoad);
+            g.DrawRectangle(pRoad, rectRoad);
 
-            });
+            Rectangle[] rcs = new Rectangle[11];
+            int x = 10;
+            for (int i = 0; i < 11; i++)
+            {
+                rcs[i] = new Rectangle(x, this.ClientRectangle.Height - 40, 50, 15);
+                x += 70;
+
+            }
+
+            e.Graphics.FillRectangles(Brushes.White, rcs);
+            #endregion
+        }
         }
     }
-}
